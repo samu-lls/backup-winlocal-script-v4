@@ -7,25 +7,25 @@ The user manual is in Brazilian Portuguese for when you need to translate it.
 1- CRIAR UM BUCKET  
    Google Cloud > Cloud Storage > Buckets > Criar Bucket  
    Escolha:  
-     - Nome;  
-     - Região do servidor;  
-     - Escolha o pacote: define valor a se pagar no final do mês;  
-     - Escolha se o servidor será público ou não (MARQUE A CAIXINHA "Aplicar a prevenção do acesso público neste bucket")  
-     - Proteger os dados do objeto: Recomendável marcar "Política de exclusão reversível (para recuperação de dados)" para Soft Delete  
+   - Nome;  
+   - Região do servidor;  
+   - Escolha o pacote: define valor a se pagar no final do mês;  
+   - Escolha se o servidor será público ou não (MARQUE A CAIXINHA "Aplicar a prevenção do acesso público neste bucket")  
+   - Proteger os dados do objeto: Recomendável marcar "Política de exclusão reversível (para recuperação de dados)" para Soft Delete  
 
 2- CRIAR UMA CONTA IAM E ADMIN  
    IAM e admin > Contas de serviço > Criar conta de serviço  
    Escolha:  
-     - Nome da conta;  
-     - Permissões: selecione o papel "Administrador de armazenamento" (pesquisa na barra);  
-     - Finaliza  
+   - Nome da conta;  
+   - Permissões: selecione o papel "Administrador de armazenamento" (pesquisa na barra);  
+   - Finaliza  
 
 3- CRIAR A CHAVE DE ACESSO DO GOOGLE CLOUD  
    Volte para a página IAM e admin > Contas de serviço  
-     - Clique em "Ações" nos 3 potinhos da conta desejada  
-     - Clique em "Gerenciar Chaves > Adicionar chave > Criar nova chave"  
-     - Selecione "JSON" e clique em criar  
-     - Baixe a chave em alguma pasta da máquina  
+   - Clique em "Ações" nos 3 potinhos da conta desejada  
+   - Clique em "Gerenciar Chaves > Adicionar chave > Criar nova chave"  
+   - Selecione "JSON" e clique em criar  
+   - Baixe a chave em alguma pasta da máquina  
    OBS: essa chave serve como acesso único com permissão para modificar o Bucket. Guarde ela no computador que irá executar o comando. Essa chave pode ser renomeada e salva em qualquer pasta (o diretório onde a chave vai estar, não pode conter ACENTO em nenhuma das palavras. Exemplo: "C:\Users\Laboratório\Downloads\chave.json")  
 
 
@@ -33,10 +33,10 @@ The user manual is in Brazilian Portuguese for when you need to translate it.
 ========================
 
 4- INSTALAR NO GOOGLE CLOUD CLI  
-     - Acesse: https://docs.cloud.google.com/sdk/docs/install-sdk?hl=pt-br  
-     - Baixe o instalador do Google Cloud CLI e execute  
-     - Selecione "All Users"  
-     - Em "Destination Folder", anote o caminho onde você irá instalar o Cloud SDK, vai precisar no Passo 6  
+   - Acesse: https://docs.cloud.google.com/sdk/docs/install-sdk?hl=pt-br  
+   - Baixe o instalador do Google Cloud CLI e execute  
+   - Selecione "All Users"  
+   - Em "Destination Folder", anote o caminho onde você irá instalar o Cloud SDK, vai precisar no Passo 6  
      OBS: não instale o Google Cloud CLI em um diretório COM ACENTO para evitar retrabalho. O executável não aceita buscar em nenhuma pasta raíz dos comandos que tenha ascento.  
    - Selecione "Next" até o final e finaliza  
 
