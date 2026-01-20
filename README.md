@@ -7,18 +7,18 @@ The user manual is in Brazilian Portuguese for when you need to translate it.
 1- CRIAR UM BUCKET  
    Google Cloud > Cloud Storage > Buckets > Criar Bucket  
    Escolha:  
-     - Nome; 
-     - Região do servidor; 
-     - Escolha o pacote: define valor a se pagar no final do mês;
-     - Escolha se o servidor será público ou não (MARQUE A CAIXINHA "Aplicar a prevenção do acesso público neste bucket")
-     - Proteger os dados do objeto: Recomendável marcar "Política de exclusão reversível (para recuperação de dados)" para Soft Delete
+     - Nome;  
+     - Região do servidor;  
+     - Escolha o pacote: define valor a se pagar no final do mês;  
+     - Escolha se o servidor será público ou não (MARQUE A CAIXINHA "Aplicar a prevenção do acesso público neste bucket")  
+     - Proteger os dados do objeto: Recomendável marcar "Política de exclusão reversível (para recuperação de dados)" para Soft Delete  
 
-2- CRIAR UMA CONTA IAM E ADMIN
-   IAM e admin > Contas de serviço > Criar conta de serviço
-   Escolha:
-     - Nome da conta;
-     - Permissões: selecione o papel "Administrador de armazenamento" (pesquisa na barra);
-     - Finaliza
+2- CRIAR UMA CONTA IAM E ADMIN  
+   IAM e admin > Contas de serviço > Criar conta de serviço  
+   Escolha:  
+     - Nome da conta;  
+     - Permissões: selecione o papel "Administrador de armazenamento" (pesquisa na barra);  
+     - Finaliza  
 
 3- CRIAR A CHAVE DE ACESSO DO GOOGLE CLOUD
    Volte para a página IAM e admin > Contas de serviço
