@@ -20,34 +20,34 @@ The user manual is in Brazilian Portuguese for when you need to translate it.
      - Permissões: selecione o papel "Administrador de armazenamento" (pesquisa na barra);  
      - Finaliza  
 
-3- CRIAR A CHAVE DE ACESSO DO GOOGLE CLOUD
-   Volte para a página IAM e admin > Contas de serviço
-     - Clique em "Ações" nos 3 potinhos da conta desejada
-     - Clique em "Gerenciar Chaves > Adicionar chave > Criar nova chave"
-     - Selecione "JSON" e clique em criar
-     - Baixe a chave em alguma pasta da máquina
-   OBS: essa chave serve como acesso único com permissão para modificar o Bucket. Guarde ela no computador que irá executar o comando. Essa chave pode ser renomeada e salva em qualquer pasta (o diretório onde a chave vai estar, não pode conter ACENTO em nenhuma das palavras. Exemplo: "C:\Users\Laboratório\Downloads\chave.json")
+3- CRIAR A CHAVE DE ACESSO DO GOOGLE CLOUD  
+   Volte para a página IAM e admin > Contas de serviço  
+     - Clique em "Ações" nos 3 potinhos da conta desejada  
+     - Clique em "Gerenciar Chaves > Adicionar chave > Criar nova chave"  
+     - Selecione "JSON" e clique em criar  
+     - Baixe a chave em alguma pasta da máquina  
+   OBS: essa chave serve como acesso único com permissão para modificar o Bucket. Guarde ela no computador que irá executar o comando. Essa chave pode ser renomeada e salva em qualquer pasta (o diretório onde a chave vai estar, não pode conter ACENTO em nenhuma das palavras. Exemplo: "C:\Users\Laboratório\Downloads\chave.json")  
 
-========================
+
 2 PREPARANDO A MÁQUINA
 ========================
 
-4- INSTALAR NO GOOGLE CLOUD CLI
-     - Acesse: https://docs.cloud.google.com/sdk/docs/install-sdk?hl=pt-br
-     - Baixe o instalador do Google Cloud CLI e execute
-     - Selecione "All Users"
-     - Em "Destination Folder", anote o caminho onde você irá instalar o Cloud SDK, vai precisar no Passo 6
-     OBS: não instale o Google Cloud CLI em um diretório COM ACENTO para evitar retrabalho. O executável não aceita buscar em nenhuma pasta raíz dos comandos que tenha ascento.
-   - Selecione "Next" até o final e finaliza
+4- INSTALAR NO GOOGLE CLOUD CLI  
+     - Acesse: https://docs.cloud.google.com/sdk/docs/install-sdk?hl=pt-br  
+     - Baixe o instalador do Google Cloud CLI e execute  
+     - Selecione "All Users"  
+     - Em "Destination Folder", anote o caminho onde você irá instalar o Cloud SDK, vai precisar no Passo 6  
+     OBS: não instale o Google Cloud CLI em um diretório COM ACENTO para evitar retrabalho. O executável não aceita buscar em nenhuma pasta raíz dos comandos que tenha ascento.  
+   - Selecione "Next" até o final e finaliza  
 
-===========================
+
 3 EDITANDO O EXECUTÁVEL
 ===========================
 
-5- EDITAR PATHING DO EXECUTÁVEL
-     - Baixe o executável "backup-winlocal-script-v4.bat"
-     - Clique com o botão direito nele e em "Editar"
-   Verifique que após o cabeçalho, nos primeiros comandos, você terá que editar algumas informações simples como Nome do Bucket, local da pasta alvo da qual você quer fazer backup e outros (Segue abaixo quais informações são). EDITE E NÃO FECHE O EXECUTÁVEL.
+5- EDITAR PATHING DO EXECUTÁVEL  
+     - Baixe o executável "backup-winlocal-script-v4.bat"  
+     - Clique com o botão direito nele e em "Editar"  
+   Verifique que após o cabeçalho, nos primeiros comandos, você terá que editar algumas informações simples como Nome do Bucket, local da pasta alvo da qual você quer fazer backup e outros (Segue abaixo quais informações são). EDITE E NÃO FECHE O EXECUTÁVEL.  
 
       > SET KEY_FILE={C:\Pasta\chave.json}
       > SET BUCKET_NAME={nome-do-bucket}
