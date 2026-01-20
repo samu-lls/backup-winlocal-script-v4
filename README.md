@@ -4,7 +4,7 @@ The user manual is in Brazilian Portuguese for when you need to translate it.
 1 PREPARANDO VIA WEB
 ========================
 
-1- CRIAR UM BUCKET  
+## 1- CRIAR UM BUCKET  
    Google Cloud > Cloud Storage > Buckets > Criar Bucket  
    Escolha:  
    - Nome;  
@@ -13,14 +13,14 @@ The user manual is in Brazilian Portuguese for when you need to translate it.
    - Escolha se o servidor será público ou não (MARQUE A CAIXINHA "Aplicar a prevenção do acesso público neste bucket")  
    - Proteger os dados do objeto: Recomendável marcar "Política de exclusão reversível (para recuperação de dados)" para Soft Delete  
 
-2- CRIAR UMA CONTA IAM E ADMIN  
+## 2- CRIAR UMA CONTA IAM E ADMIN  
    IAM e admin > Contas de serviço > Criar conta de serviço  
    Escolha:  
    - Nome da conta;  
    - Permissões: selecione o papel "Administrador de armazenamento" (pesquisa na barra);  
    - Finaliza  
 
-3- CRIAR A CHAVE DE ACESSO DO GOOGLE CLOUD  
+## 3- CRIAR A CHAVE DE ACESSO DO GOOGLE CLOUD  
    Volte para a página IAM e admin > Contas de serviço  
    - Clique em "Ações" nos 3 potinhos da conta desejada  
    - Clique em "Gerenciar Chaves > Adicionar chave > Criar nova chave"  
@@ -32,7 +32,7 @@ The user manual is in Brazilian Portuguese for when you need to translate it.
 2 PREPARANDO A MÁQUINA
 ========================
 
-4- INSTALAR NO GOOGLE CLOUD CLI  
+## 4- INSTALAR NO GOOGLE CLOUD CLI  
    - Acesse: https://docs.cloud.google.com/sdk/docs/install-sdk?hl=pt-br  
    - Baixe o instalador do Google Cloud CLI e execute  
    - Selecione "All Users"  
@@ -44,9 +44,9 @@ The user manual is in Brazilian Portuguese for when you need to translate it.
 3 EDITANDO O EXECUTÁVEL
 ===========================
 
-5- EDITAR PATHING DO EXECUTÁVEL  
-     - Baixe o executável "backup-winlocal-script-v4.bat"  
-     - Clique com o botão direito nele e em "Editar"  
+## 5- EDITAR PATHING DO EXECUTÁVEL  
+   - Baixe o executável "backup-winlocal-script-v4.bat"  
+   - Clique com o botão direito nele e em "Editar"  
    Verifique que após o cabeçalho, nos primeiros comandos, você terá que editar algumas informações simples como Nome do Bucket, local da pasta alvo da qual você quer fazer backup e outros (Segue abaixo quais informações são). EDITE E NÃO FECHE O EXECUTÁVEL.  
 
       > SET KEY_FILE={C:\Pasta\chave.json}
@@ -54,26 +54,26 @@ The user manual is in Brazilian Portuguese for when you need to translate it.
       > SET SOURCE_FOLDER={C:\Pasta\Pasta-Alvo-Para-Backup}
       > SET DESTINATION_PATH={Nome da Pasta que irá criar no Google Cloud}
 
-OBS: não esqueça de remover os colchetes
+OBS: não esqueça de remover os colchetes  
 
-6- ACHANDO O GOOGLE CLOUD CLI
-    - Abra o CMD em Modo Administrador
-    - Digite "where gcloud" e dá enter
-    - Copie o caminho até a pasta antes do arquivo final e cole no "GCLOUD_PATH", como tá escrito dentro dos colchetes
+## 6- ACHANDO O GOOGLE CLOUD CLI  
+   - Abra o CMD em Modo Administrador  
+   - Digite "where gcloud" e dá enter  
+   - Copie o caminho até a pasta antes do arquivo final e cole no "GCLOUD_PATH", como tá escrito dentro dos colchetes  
 
      > SET GCLOUD_PATH={C:\Program Files (x86)\Google\Cloud SDK\google-cloud-sdk\bin}
 
-    - Nessa mesma pasta, você irá encontrar também o arquivo Python para editar no executável em "...\google-cloud-sdk\plataform\bundlepython\python.exe" como segue no exemplo abaixo (retire os colchetes sempre):
+   - Nessa mesma pasta, você irá encontrar também o arquivo Python para editar no executável em "...\google-cloud-sdk\plataform\bundlepython\python.exe" como segue no exemplo abaixo (retire os colchetes sempre):
 
      > SET CLOUDSDK_PYTHON={C:\Program Files (x86)\Google\Cloud SDK\google-cloud-sdk\platform\bundledpython\python.exe}
 
-OBS: tudo que está dentro das colchetes edite e remova os colchetes
+OBS: tudo que está dentro das colchetes edite e remova os colchetes  
 
-===============================
+
 4 TESTE DE PUSH MANUAL 
 ===============================
 
-1- PROCURANDO ALGUMAS INFORMAÇÕES
+## 1- PROCURANDO ALGUMAS INFORMAÇÕES  
    - Primeiramente abra o CMD em modo administrador, você colocará os comandos abaixo em sequência (1 por vez)
    - Lembra dos caminhos que fomos Editando no executável? Serão utilizados aqui também. Vou marcar os passos onde estão cada um para que fique mais fácil de procurar, se você fez os passos anteriores certinho, esse primeiro Backup irá dar certo.
    - Não altere nada do primeiro comando, apenas digite no CMD:
