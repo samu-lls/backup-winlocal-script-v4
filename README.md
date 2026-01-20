@@ -4,9 +4,9 @@ The user manual is in Brazilian Portuguese for when you need to translate it.
 1 PREPARANDO VIA WEB
 ========================
 
-1- CRIAR UM BUCKET
-   Google Cloud > Cloud Storage > Buckets > Criar Bucket
-   Escolha: 
+1- CRIAR UM BUCKET  
+   Google Cloud > Cloud Storage > Buckets > Criar Bucket  
+   Escolha:  
      - Nome; 
      - Região do servidor; 
      - Escolha o pacote: define valor a se pagar no final do mês;
