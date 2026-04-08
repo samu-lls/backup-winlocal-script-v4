@@ -53,7 +53,7 @@ if %ERRORLEVEL% NEQ 0 (
 
 echo. >> %LOG_FILE%
 echo ============================================ >> %LOG_FILE%
-echo Backup Completo com Sucesso! %date% %time% >> %LOG_FILE%
+echo Backup Complete Successful! %date% %time% >> %LOG_FILE%
 echo ============================================ >> %LOG_FILE%
 
 echo Backup Complete! LLS
