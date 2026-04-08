@@ -1,189 +1,170 @@
-The user manual is in Brazilian Portuguese for when you need to translate it.
+# WinLocal Backup Script v4
 
+[Português](README.pt-BR.md) | [English](README.md)
 
-1 PREPARANDO VIA WEB
-========================
+<p align="center">
+  <img src="terminal-preview.png" alt="WinLocal Backup Script in action" width="800">
+</p>
 
-### 1- CRIAR UM BUCKET  
-   Google Cloud > Cloud Storage > Buckets > Criar Bucket  
-   Escolha:  
-   - Nome;  
-   - Região do servidor;  
-   - Escolha o pacote: define valor a se pagar no final do mês;  
-   - Escolha se o servidor será público ou não (MARQUE A CAIXINHA "Aplicar a prevenção do acesso público neste bucket")  
-   - Proteger os dados do objeto: Recomendável marcar "Política de exclusão reversível (para recuperação de dados)" para Soft Delete  
+<p align="center">
+  <em>Data loss is not an option. Automate your cloud backups with precision.</em><br>
+  <strong>WinLocal Backup Script v4</strong> is a robust Windows Batch solution that integrates seamlessly with the Google Cloud SDK to mirror and archive your critical local files securely to the cloud.
+</p>
 
-### 2- CRIAR UMA CONTA IAM E ADMIN  
-   IAM e admin > Contas de serviço > Criar conta de serviço  
-   Escolha:  
-   - Nome da conta;  
-   - Permissões: selecione o papel "Administrador de armazenamento" (pesquisa na barra);  
-   - Finaliza  
+<p align="center">
+  <img src="https://img.shields.io/badge/OS-Windows-0078D6?style=flat&logo=windows&logoColor=white" alt="Windows">
+  <img src="https://img.shields.io/badge/Language-Batch-4EAA25?style=flat&logo=gnubash&logoColor=white" alt="Batch Script">
+  <img src="https://img.shields.io/badge/Cloud-Google%20Cloud-4285F4?style=flat&logo=googlecloud&logoColor=white" alt="Google Cloud">
+</p>
 
-### 3- CRIAR A CHAVE DE ACESSO DO GOOGLE CLOUD  
-   Volte para a página IAM e admin > Contas de serviço  
-   - Clique em "Ações" nos 3 potinhos da conta desejada  
-   - Clique em "Gerenciar Chaves > Adicionar chave > Criar nova chave"  
-   - Selecione "JSON" e clique em criar  
-   - Baixe a chave em alguma pasta da máquina  
-   OBS: essa chave serve como acesso único com permissão para modificar o Bucket. Guarde ela no computador que irá executar o comando. Essa chave pode ser renomeada e salva em qualquer pasta (o diretório onde a chave vai estar, não pode conter ACENTO em nenhuma das palavras. Exemplo: "C:\Users\Laboratório\Downloads\chave.json")  
+---
 
+## What Is This?
 
-2 PREPARANDO A MÁQUINA
-========================
+**WinLocal Backup Script v4** is a Command-Line Interface (CLI) tool built in Windows Batch that leverages the power of `gsutil` (Google Cloud CLI) to automate local-to-cloud backups. 
 
-### 4- INSTALAR NO GOOGLE CLOUD CLI  
-   - Acesse: https://docs.cloud.google.com/sdk/docs/install-sdk?hl=pt-br  
-   - Baixe o instalador do Google Cloud CLI e execute  
-   - Selecione "All Users"  
-   - Em "Destination Folder", anote o caminho onde você irá instalar o Cloud SDK, vai precisar no Passo 6  
-     OBS: não instale o Google Cloud CLI em um diretório COM ACENTO para evitar retrabalho. O executável não aceita buscar em nenhuma pasta raíz dos comandos que tenha ascento.  
-   - Selecione "Next" até o final e finaliza  
+Instead of relying on heavy third-party software, this script runs silently in the background, authenticates via a secure service account, and synchronizes your selected local directories directly to a Google Cloud Storage Bucket. 
 
+## Core Features
 
-3 EDITANDO O EXECUTÁVEL
-===========================
+| Feature | Description |
+|---------|-------------|
+| ☁️ **Direct Cloud Sync** | Utilizes `gsutil rsync` to upload only modified files, saving bandwidth and execution time. |
+| 🛡️ **Soft Delete Ready** | Fully compatible with GCP's Soft Delete policies, protecting you from accidental overwrites or ransomware. |
+| 📝 **Execution Logging** | Generates detailed `.log` files showing exactly which files were uploaded and their progress. |
+| 📅 **Task Scheduler Integration** | Configurable for full "set-and-forget" automation via Windows Task Scheduler. |
 
-### 5- EDITAR PATHING DO EXECUTÁVEL  
-   - Baixe o executável "backup-winlocal-script-v4.bat"  
-   - Clique com o botão direito nele e em "Editar"  
-   Verifique que após o cabeçalho, nos primeiros comandos, você terá que editar algumas informações simples como Nome do Bucket, local da pasta alvo da qual você quer fazer backup e outros (Segue abaixo quais informações são). EDITE E NÃO FECHE O EXECUTÁVEL.  
+---
 
-      > SET KEY_FILE={C:\Pasta\chave.json}
-      > SET BUCKET_NAME={nome-do-bucket}
-      > SET SOURCE_FOLDER={C:\Pasta\Pasta-Alvo-Para-Backup}
-      > SET DESTINATION_PATH={Nome da Pasta que irá criar no Google Cloud}
+## 🛠️ Complete Setup Guide
 
-OBS: não esqueça de remover os colchetes  
+Follow these steps to set up your Google Cloud environment and configure the script on your local machine.
 
-### 6- ACHANDO O GOOGLE CLOUD CLI  
-   - Abra o CMD em Modo Administrador  
-   - Digite "where gcloud" e dá enter  
-   - Copie o caminho até a pasta antes do arquivo final e cole no "GCLOUD_PATH", como tá escrito dentro dos colchetes  
+### Phase 1: Web Preparation (Google Cloud)
 
-     > SET GCLOUD_PATH={C:\Program Files (x86)\Google\Cloud SDK\google-cloud-sdk\bin}  
+**1. Create a Bucket**
+* Navigate to **Google Cloud > Cloud Storage > Buckets > Create Bucket**.
+* Choose your Bucket Name and Server Region.
+* Select your billing tier/storage class.
+* **Important:** Check the box for **"Enforce public access prevention on this bucket"**.
+* **Data Protection:** It is highly recommended to enable **"Soft delete policy"** for data recovery.
 
-   - Nessa mesma pasta, você irá encontrar também o arquivo Python para editar no executável em "...\google-cloud-sdk\plataform\bundlepython\python.exe" como segue no exemplo abaixo (retire os colchetes sempre):  
+**2. Create an IAM Service Account**
+* Navigate to **IAM & Admin > Service Accounts > Create Service Account**.
+* Choose a name for the account.
+* Under Roles, search for and select **"Storage Admin"**.
+* Click Done.
 
-     > SET CLOUDSDK_PYTHON={C:\Program Files (x86)\Google\Cloud SDK\google-cloud-sdk\platform\bundledpython\python.exe}  
+**3. Generate the Access Key**
+* Go back to the Service Accounts list.
+* Click the three dots (Actions) next to your new account -> **Manage keys**.
+* Click **Add key > Create new key**.
+* Select **JSON** and click Create.
+* Download the key to your local machine.
+> ⚠️ **CRITICAL:** Save this `.json` key in a secure folder. The folder path **MUST NOT contain any accents or special characters** (e.g., avoid paths like `C:\Usuários\Laboratório\`).
 
-OBS: tudo que está dentro das colchetes edite e remova os colchetes  
+### Phase 2: Machine Preparation
 
+**4. Install Google Cloud CLI**
+* Download the Google Cloud CLI installer from the [official documentation](https://docs.cloud.google.com/sdk/docs/install-sdk).
+* Run the installer and select **"All Users"**.
+* Note down the **Destination Folder** path (you will need this in step 6).
+> ⚠️ **CRITICAL:** Do not install the CLI in a folder with accents or special characters.
 
-4 TESTE DE PUSH MANUAL  
-===============================
+### Phase 3: Editing the Executable
 
-### 1- PROCURANDO ALGUMAS INFORMAÇÕES  
-   - Primeiramente abra o CMD em modo administrador, você colocará os comandos abaixo em sequência (1 por vez)  
-   - Lembra dos caminhos que fomos Editando no executável? Serão utilizados aqui também. Vou marcar os passos onde estão cada um para que fique mais fácil de procurar, se você fez os passos anteriores certinho, esse primeiro Backup irá dar certo.  
-   - Não altere nada do primeiro comando, apenas digite no CMD:  
+**5. Edit Script Pathing**
+* Download `backup-winlocal-script-v4.bat`, right-click it, and select **Edit**.
+* Locate the configuration block at the top of the script and replace the bracketed placeholders `{...}` with your actual paths. **Do not close the editor yet.**
 
-     > set CLOUDSDK_CONFIG=C:\config-gcloud-lls\.gcloud  
+```bat
+SET KEY_FILE=C:\Path\To\your-key.json
+SET BUCKET_NAME=your-bucket-name
+SET SOURCE_FOLDER=C:\Path\To\Target-Folder-For-Backup
+SET DESTINATION_PATH=Name-of-Folder-Inside-Google-Cloud
+```
+*(Note: Remove the `{ }` brackets when entering your data).*
 
-   - No passo 6 você usou o "where gcloud" no CMD e achou o caminho de instalação do Google Cloud SDK, cole no comando abaixo no local dentro dos colchetes. Remova os colchetes e dá enter no CMD:  
+**6. Locate Google Cloud CLI Paths**
+* Open `CMD` as Administrator.
+* Type `where gcloud` and press Enter.
+* Copy the path (excluding the final `gcloud.cmd` file) and paste it into the `GCLOUD_PATH` variable.
+* In that same parent directory, locate the bundled Python executable and paste its path into `CLOUDSDK_PYTHON`.
 
-     > set PATH={C:\Program Files (x86)\Google\Cloud SDK\google-cloud-sdk\bin};%PATH%  
+```bat
+SET GCLOUD_PATH=C:\Program Files (x86)\Google\Cloud SDK\google-cloud-sdk\bin
+SET CLOUDSDK_PYTHON=C:\Program Files (x86)\Google\Cloud SDK\google-cloud-sdk\platform\bundledpython\python.exe
+```
 
-   - No passo 3, você criou uma chave de autenticação .JSON e baixou no seu computador. Substitua no comando abaixo o caminho de onde está este arquivo e remova os colchetes.  
+### Phase 4: Testing & Logging
 
-     > gcloud auth activate-service-account --key-file="{C:\Pasta\chave.json}"  
+**7. Manual Execution Test**
+* Save and close the `.bat` file.
+* Right-click the executable and select **Run as Administrator**.
+* **How to know if it worked:** The script will generate a `backup_log` file in the same folder. If the log stops at authentication, double-check your paths in Step 5 and 6 (look for missing quotes, brackets left behind, or accents in the folder names).
+* If successful, the log will display the upload progress of your files:
+```text
+- [1/14 files][ 48.8 KiB/ 48.8 KiB]  99% Done                                   
+- [2/14 files][ 48.8 KiB/ 48.8 KiB]  99% Done 
+```
 
-   - No passo 5 você definiu o caminho na sua máquina da Pasta-Alvo-Para-Backup, Nome-Do-Bucket e Nome da Pasta que irá criar no Google Cloud, copie essas informações, cole no comando abaixo, RETIRE OS COLCHETES e dá enter no CMD  
+### Phase 5: Automated Execution (Optional)
 
-     > gsutil -m rsync -r -d "{C:\Pasta\Pasta-Alvo-Para-Backup}" "gs://{nome-do-bucket}/{Nome da Pasta que irá criar no Google Cloud}"  
+If you want the backup to run automatically without manual clicks:
 
-   - Após os comandos, você executou um Backup Manual dos arquivos para teste! Você pode verificar os arquivos de duas formas:  
-     1. Acessando o site do Google Cloud, entre no seu Bucket e Atualize a página para verificar os arquivos lá  
-     2. Digitando no CMD "gcloud ls gs://{nome-do-bucket}/{Nome da Pasta que irá criar no Google Cloud}" para que ele liste todos os arquivos dentro do Bucket  
+**8. Disable UAC Prompt for Administrators**
+* Press `Win + R` -> type `secpol.msc` -> press Enter.
+* Navigate to **Local Policies > Security Options**.
+* Find **User Account Control: Run all administrators in Admin Approval Mode** and set it to **Disabled**. 
+*(This prevents the "Do you want to allow this app to make changes" prompt from interrupting the automation).*
 
-5 TESTE DE PUSH COM EXECUTÁVEL  
-===============================
+**9. Schedule the Task in Windows**
+* Press `Win + R` -> type `taskschd.msc` -> press Enter.
+* Click **Create Task...**
+* **General Tab:** Name it (e.g., "Daily Cloud Backup"). Select *Run whether user is logged on or not* and check *Run with highest privileges*.
+* **Triggers Tab:** Click New -> *On a schedule* -> *Daily*. Set your preferred time.
+* **Actions Tab:** Click New -> *Start a program*. 
+  * In Program/script, type: `cmd.exe`
+  * In Add arguments, type: `/c "C:\Path\To\backup-winlocal-script-v4.bat"` *(Keep the quotes)*.
+  * In Start in, type the folder path only: `C:\Path\To` *(No quotes)*.
+* **Conditions & Settings Tabs:** Configure according to your preferences (e.g., *Allow task to be run on demand*).
+* Click **OK** to save.
 
-### 1- TERMINOU DE EDITAR TODAS AS INFORMAÇÕES DO EXECUTÁVEL  
-   - Salve as alterações e feche o arquivo  
-   - Execute em Modo Administrador  
-   Como saber de funcionou?  
-     - Ele gera na mesma pasta que está o executável, um arquivo de "backup_log" que mostra se funcionou. Se o arquivo de log parar na autenticação de conta ou na seleção de caminho, o problema está no passo 5, verifique se está sem Ascento no diretório, verifique se está sem colchetes...  
-     - Caso o "backup_log" mostre os arquivos sendo Upados com as porcentagens, está funcionando. Segue o exemplo abaixo:  
+### Phase 6: Cloud Data Management
 
-> - [1/14 files][ 48.8 KiB/ 48.8 KiB]  99% Done                                   
-> - [2/14 files][ 48.8 KiB/ 48.8 KiB]  99% Done                                   
-> - [3/14 files][ 48.8 KiB/ 48.8 KiB]  99% Done                                   
-> - [4/14 files][ 48.8 KiB/ 48.8 KiB]  99% Done                                   
-> - [5/14 files][ 48.8 KiB/ 48.8 KiB]  99% Done                                   
-> - [6/14 files][ 48.8 KiB/ 48.8 KiB]  99% Done                                   
-> - [7/14 files][ 48.8 KiB/ 48.8 KiB]  99% Done   
+**How to Recover Soft-Deleted Files:**
+1. Open your GCP Bucket.
+2. Click **Show** (right side) and select **"Show only soft-deleted objects"**.
+3. Locate and click on the file you want to recover.
+4. Go back to **Show** and select **"Soft-deleted"**.
+5. Click **Restore** at the end of the file's row and confirm.
 
-### 2- TUDO CERTO? PODE PROSSEGUIR PARA O BACKUP AUTOMÁTICO CASO NÃO QUEIRA FICAR FAZENDO MANUALMENTE  
+**How to Download Files to Local Machine:**
+1. Open your GCP Bucket.
+2. At the end of the file's row, locate the Download icon.
+3. **Right-click** the icon and select **"Save link as..."**.
+4. Choose your local folder and download. *(Clicking normally will just open the file in the browser).*
 
-6 CONFIGURANDO PARA EXECUTAR AUTOMATICAMENTE  
-==============================================
+---
 
-### 1- RETIRANDO CAIXA DE DIÁLOGO COM PERMISSÃO DE ADMINISTRADOR  
+## Project Structure
 
-> Win+R > secpol.msc > Políticas Locais > Opções de segurança > Controle de Conta de Usuário: executar todos os adminitradores no Modo de Aprovação de Administrador > Desabilitada  
+```text
+backup-winlocal-script-v4/
+├── backup-winlocal-script-v4.bat  # Main execution script
+├── backup_log.txt                 # Auto-generated execution log
+└── README.md
+```
 
-   Isso irá fazer com que a caixa de diálogo pedindo permissão de administrador não apareça em Usuários que já são administradores. Sem fazer este passo, toda vez que for executar automaticamente, irá aparecer na tela "Deseja permitir que este aplicativo faça alterações no seu dispositivo?" portanto, vai deixar de ser automático e você precisará clicar nessa caixa de diálogo. Faça este passo para prosseguir  
+## About the Author
 
-### 2- AGENDANDO A TAREFA PARA O WINDOWS EXECUTAR AUTOMATICAMENTE  
+I'm **Samuel**, an IT Analyst passionate about creating reliable infrastructure and automation tools. Having designed backup architectures to meet strict compliance regulations in professional environments, I built this script to bring that same level of reliability to local Windows machines using enterprise-grade cloud tools.
 
-> Win+R > taskschd.msc > Criar tarefa...  
+If you want to talk tech, infrastructure, or software development, let's connect.
 
-   1. Na aba GERAL:  
-     - Dê um nome qualquer como "Backup Diário 1"  
-     - Selecione a opção "Executar estando o usuário conectado ou não"  
-     - Marque a checkbox "Executar com privilégios mais altos"  
-   2. Na aba DISPARADORES:  
-     - Clique em "Novo"  
-     - Selecione "Em um agendamento"  
-     - Selecione "Diário" e modifque o relógio para definir em qual horário você quer que faça o backup (você pode definir um intervalo de tempo maior ou criar mais agendamentos para que faça backup mais de uma vez no dia)  
-     - Marque a checkbox "Habilitado"  
-     - Dê "OK"  
-   3. Na aba AÇÕES:  
-     - Clique em "Novo"  
-     - Selecione "Iniciar um programa"  
-     - Em "Programa/script:" escreva "cmd.exe" (retire as aspas, deixe só o cmd.exe)  
-     - Em "Adicione argumentos (opcional):" coloque:  
+## Let's Connect
 
-      > /c "{Caminho-de-onde-está-o-arquivo-executável-e-nome-do-arquivo-executável}"
-
-   Exemplo: /c "C:\Users\Laboratório\Downloads\backup-winlocal-script-v4"  
-
-   OBS: tire os colchetes mas não tire as aspas do comando, que vai identificar em qualquer pasta do dispositivo  
-
-   - Em "Iniciar em (opcional):" escreva apenas o caminho do qual você já tinha escrito mas sem o nome do arquivo, sem o "/c" e sem as aspas  
-     
-      Exemplo: C:\Users\Laboratório\Downloads  
-
-   4. Na aba CONDIÇÕES  
-     - Ative as opções de acordo com a preferência do usuário  
-
-   OBS: provavelmente a tarefa não funcionará com o computador desligado, mesmo marcando a opção de "Reativar o computador para executar esta tarefa" (tem uma série de permissões e impecílios para que isso aconteceça)  
-   
-   5. Na aba CONFIGURAÇÕES  
-     - Marque o checkbox "Permitir que a tarefa seja executada por demanda"  
-     - Marque o checkbox "Se ocorrer falha na tarefa, reiniciar a cada" e deixe a configuração padrão (pode mudar de acordo com a preferência do usuário)  
-
-   6. CLIQUE "OK" PARA FINALIZAR  
-
-
-7 COMO RECUPERAR ARQUIVOS COM SOFT DELETE NO GOOGLE CLOUD  
-===========================================================
-
-1. ACESSE SEU BUCKET  
-   - Acesse seu diretório principal  
-   - Clique em "Mostrar" e selecione "Apenas objetos excluídos de forma reversível" (essa opção fica no canto direito na mesma barra que os "Filtro" e "Filtrar apenas...")  
-   - Escolha o arquivo que você quer recuperar e clique nele  
-   - Vá novamente no canto direito em "Mostrar" e selecione "Exclusão reversível"  
-   - Na mesma linha do arquivo que você selecionou está escrito no final da linha "Restore"  
-   - Clique em "Restore" e Confirme  
-
-
-8 BAIXANDO ARQUIVO DO GOOGLE CLOUD PARA MÁQUINA LOCAL  
-========================================================
-
-1. ACESSE SEU BUCKET  
-   - No final da linha do arquivo que você quer baixar, tem um símbolo de "Download" (setinha pra baixo com meio retângulo)  
-   - Clique com o botão direito em cima do ícone e clique em "Salvar link como..."  
-   - Escolha as pasta local e baixe o arquivo  
-   OBS: caso você só clique no ícone de download, será redirecionado ao documento aberto no navegador, mas não irá baixar  
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/samu-lls/)
+[![Behance](https://img.shields.io/badge/Behance-1769FF?style=for-the-badge&logo=behance&logoColor=white)](https://www.behance.net/samuellelles)
+[![Email](https://img.shields.io/badge/Email-0078D4?style=for-the-badge&logo=microsoft-outlook&logoColor=white)](mailto:samu.lls@outlook.com)
+[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/samu-lls)
