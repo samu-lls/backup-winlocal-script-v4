@@ -1,6 +1,6 @@
 # WinLocal Backup Script v4
 
-[Português](README.pt-BR.md) | [English](README.md)
+[Português](README.pt-br.md) | [English](README.md)
 
 <p align="center">
   <img src="terminal-preview.png" alt="WinLocal Backup Script in action" width="800">
